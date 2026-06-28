@@ -1,0 +1,22 @@
+Name: usermgr.rpc
+ListenOn: 0.0.0.0:8085
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: usermgr.rpc
+
+DB:
+  DataSource: root:123456@tcp(127.0.0.1:3307)/user_db?charset=utf8mb4&parseTime=True&loc=Local
+  MaxOpenConns: 20   # 最大连接数
+  MaxIdleConns: 5    # 空闲连接
+  SlowThreshold: 1s  # 慢SQL打印阈值
+
+CacheConf:
+  # 节点1
+  - Host: 127.0.0.1:6379
+    Timeout: 1s
+    Weight: 100
+  # 节点2
+  # - Host: 127.0.0.1:6380
+  #   Timeout: 1s
+  #   Weight: 80

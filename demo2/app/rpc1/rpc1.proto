@@ -1,26 +1,26 @@
 syntax = "proto3";
 
-package demo1;
+package rpc1;
 // 相对路径;包名
-option go_package = "./demo1_pb";
+option go_package = "./rpc1_pb";
 
-message Demo1Req {
+message TestCReq {
   string input_params = 1;
 }
 
-message Demo2Rsp {
+message TestCRsp {
   string output_params = 2;
 }
 
-service demo1 {
-  rpc demo1test(Demo1Req) returns (Demo2Rsp);
+service Rpc1 {
+  rpc TestC(TestCReq) returns (TestCRsp);
 }
 
 /*
 生成项目框架
-goctl rpc protoc demo1.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+goctl rpc protoc rpc1.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 
-生成logic单元测试代码
+生成logic测试代码
 go install github.com/cweill/gotests/gotests@latest
 # 进入logic目录
 cd internal/logic
@@ -31,3 +31,4 @@ windows： gotests -all -w (Get-ChildItem *.go).Name
 执行单元测试，这样写自动加载所有依赖
 go test -v .
 */
+

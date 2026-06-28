@@ -1,0 +1,10 @@
+Name: demo3.rpc
+ListenOn: 0.0.0.0:8083
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: demo3.rpc
+
+RedisClient:
+  Host: 127.0.0.1:6379
+  Type: node

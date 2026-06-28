@@ -1,24 +1,33 @@
 syntax = "proto3";
 
-package demo1;
+package demo3;
 // 相对路径;包名
-option go_package = "./demo1_pb";
+option go_package = "./types";
 
-message Demo1Req {
-  string input_params = 1;
+message GetReq {
+  string key = 1;
 }
 
-message Demo2Rsp {
-  string output_params = 2;
+message GetRsp {
+  string value = 2;
 }
 
-service demo1 {
-  rpc demo1test(Demo1Req) returns (Demo2Rsp);
+message SetReq {
+  string key = 1;
+  string value = 2;
+}
+
+message SetRsp {
+}
+
+service demo3 {
+    rpc Get(GetReq) returns (GetRsp);
+    rpc Set(SetReq) returns (SetRsp);
 }
 
 /*
 生成项目框架
-goctl rpc protoc demo1.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+goctl rpc protoc demo3.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 
 生成logic单元测试代码
 go install github.com/cweill/gotests/gotests@latest

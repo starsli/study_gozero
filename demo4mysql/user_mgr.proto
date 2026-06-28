@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package user_mgr;
+// 相对路径;包名
+option go_package = "./user_mgr_pb";
+
+// 创建用户Req
+message CreateUserReq {
+    string name = 1;
+    int32 age = 2;
+}
+
+message CreateUserRsp {
+    int64 id = 1;
+}
+
+// 获取用户Req
+message GetUserReq {
+    int64 id = 1;
+}
+
+message GetUserRsp {
+    int64 id = 1;
+    string name = 2;
+    int32 age = 3;
+}
+
+// 更新用户Req
+message UpdateUserReq {
+    int64 id = 1;
+    string name = 2;
+    int32 age = 3;
+}
+
+message UpdateUserRsp {
+}
+
+// 删除用户Req
+message DeleteUserReq {
+    int64 id = 1;
+}
+
+message DeleteUserRsp {
+}
+
+// 获取所有用户Req
+message GetAllUsersReq {
+}
+
+message GetAllUsersRsp {
+    repeated GetUserRsp users = 1;
+}
+
+service UserMgr {
+    rpc CreateUser(CreateUserReq) returns (CreateUserRsp);
+    rpc GetUser(GetUserReq) returns (GetUserRsp);
+    rpc UpdateUser(UpdateUserReq) returns (UpdateUserRsp);
+    rpc DeleteUser(DeleteUserReq) returns (DeleteUserRsp);
+    rpc GetAllUsers(GetAllUsersReq) returns (GetAllUsersRsp);
+}
+
+/*
+生成项目框架
+goctl rpc protoc user_mgr.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+
+生成logic单元测试代码
+go install github.com/cweill/gotests/gotests@latest
+# 进入logic目录
+cd internal/logic
+# 为所有logic生成测试文件，覆盖写入
+Linux： gotests -all -w *.go
+windows： gotests -all -w (Get-ChildItem *.go).Name
+
+执行单元测试，这样写自动加载所有依赖
+go test -v .
+*/

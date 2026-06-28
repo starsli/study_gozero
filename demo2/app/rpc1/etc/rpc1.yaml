@@ -1,0 +1,15 @@
+Name: rpc1.rpc
+ListenOn: 0.0.0.0:8084
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: rpc1.rpc
+
+Rpc2Conf:
+  Etcd:
+    Hosts:
+    - 127.0.0.1:2379
+    Key: rpc2.rpc
+  Timeout: 1500 # ms
+  KeepaliveTime: 10s # 10秒保持连接超时
+
