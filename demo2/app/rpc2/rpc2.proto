@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package rpc2;
+// 相对路径;包名
+option go_package = "./rpc2_pb";
+
+message TestCReq {
+  string input_params = 1;
+}
+
+message TestCRsp {
+  string output_params = 1;
+}
+
+service Rpc2 {
+  rpc TestC(TestCReq) returns (TestCRsp);
+}
+
+// 生成项目框架
+// goctl rpc protoc rpc2.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+/*
+生成logic测试代码
+go install github.com/cweill/gotests/gotests@latest
+# 进入logic目录
+cd internal/logic
+# 为所有logic生成测试文件，覆盖写入
+Linux： gotests -all -w *.go
+windows： gotests -all -w (Get-ChildItem *.go).Name
+*/
