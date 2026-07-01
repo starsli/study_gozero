@@ -13,7 +13,7 @@ type (
 	// and implement the added methods in customTAccountModel.
 	TAccountModel interface {
 		tAccountModel
-		withSession(session sqlx.Session) TAccountModel
+		WithSession(session sqlx.Session) TAccountModel
 		TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TAccountModel) error) error
 		FindOneForUpdate(ctx context.Context, uid int64) (*TAccount, error)
 	}
@@ -30,14 +30,14 @@ func NewTAccountModel(conn sqlx.SqlConn) TAccountModel {
 	}
 }
 
-func (m *customTAccountModel) withSession(session sqlx.Session) TAccountModel {
+func (m *customTAccountModel) WithSession(session sqlx.Session) TAccountModel {
 	return NewTAccountModel(sqlx.NewSqlConnFromSession(session))
 }
 
 // TransactCtx 事务封装
 func (m *customTAccountModel) TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TAccountModel) error) error {
 	return m.conn.TransactCtx(ctx, func(ctx context.Context, tx sqlx.Session) error {
-		return fn(ctx, m.withSession(tx))
+		return fn(ctx, m.WithSession(tx))
 	})
 }
 

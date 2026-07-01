@@ -8,19 +8,24 @@ import (
 )
 
 type ServiceContext struct {
-	Config           config.Config
-	TRelationModel   mysql.TRelationModel
-	TUserInfoModel   mysql.TUserInfoModel
-	TAccountModel    mysql.TAccountModel
-	TUidSegmentModel mysql.TUidSegmentModel
+	Config            config.Config
+	SqlConn           sqlx.SqlConn
+	TRelationModel    mysql.TRelationModel
+	TUserInfoModel    mysql.TUserInfoModel
+	TAccountModel     mysql.TAccountModel
+	TUidSegmentModel  mysql.TUidSegmentModel
+	TAccountFlowModel mysql.TAccountFlowModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	sqlConn := sqlx.NewMysql(c.DB.DataSource)
 	return &ServiceContext{
-		Config:           c,
-		TRelationModel:   mysql.NewTRelationModel(sqlx.NewMysql(c.DB.DataSource)),
-		TUserInfoModel:   mysql.NewTUserInfoModel(sqlx.NewMysql(c.DB.DataSource)),
-		TAccountModel:    mysql.NewTAccountModel(sqlx.NewMysql(c.DB.DataSource)),
-		TUidSegmentModel: mysql.NewTUidSegmentModel(sqlx.NewMysql(c.DB.DataSource)),
+		Config:            c,
+		SqlConn:           sqlConn,
+		TRelationModel:    mysql.NewTRelationModel(sqlConn),
+		TUserInfoModel:    mysql.NewTUserInfoModel(sqlConn),
+		TAccountModel:     mysql.NewTAccountModel(sqlConn),
+		TUidSegmentModel:  mysql.NewTUidSegmentModel(sqlConn),
+		TAccountFlowModel: mysql.NewTAccountFlowModel(sqlConn),
 	}
 }

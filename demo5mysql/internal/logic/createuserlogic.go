@@ -27,6 +27,22 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_pb.CreateUserRsp, error) {
+	// 校验字段长度
+	// UserId[1,64]
+	// Age[1,256]
+	// Name[1,64]
+	if len(in.UserId) < 1 || len(in.UserId) > 64 {
+		return nil, errors.New("userId length is not in range [1,64]")
+	}
+
+	if len(in.Name) < 1 || len(in.Name) > 64 {
+		return nil, errors.New("name length is not in range [1,64]")
+	}
+
+	if in.Age < 1 || in.Age > 256 {
+		return nil, errors.New("age is not in range [1,256]")
+	}
+
 	// 先查询relation是否已经存在
 	relation, err := l.svcCtx.TRelationModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
@@ -34,9 +50,9 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 			return nil, err
 		}
 	} else {
-		if relation.State == 1 {
+		if relation.State == RelationStateRegistering {
 			// 继续关联中，不执行后续操作
-		} else if relation.State == 2 {
+		} else if relation.State == RelationStateRegistered {
 			// 重入关联成功的用户, 要校验关键信息一致性
 			userInfoTmp, err := l.svcCtx.TUserInfoModel.FindOne(l.ctx, relation.Uid)
 			if err != nil {
@@ -52,7 +68,7 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 				IsRepeat: 1,
 			}, nil
 		} else {
-			return nil, errors.New("relation state is not 1 or 2")
+			return nil, errors.New("relation state is not registering or registered")
 		}
 	}
 
@@ -70,7 +86,7 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 	l.svcCtx.TRelationModel.Insert(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
 		Uid:    newUid,
-		State:  1, // 注册中
+		State:  RelationStateRegistering, // 注册中
 	})
 
 	l.Logger.Infof("starsli3 generateUid: %v", newUid)
@@ -100,7 +116,7 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 	l.svcCtx.TRelationModel.Update(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
 		Uid:    newUid,
-		State:  2, // 注册成功
+		State:  RelationStateRegistered, // 注册成功
 	})
 
 	return &user_mgr_pb.CreateUserRsp{

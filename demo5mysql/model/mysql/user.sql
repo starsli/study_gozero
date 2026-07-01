@@ -30,6 +30,25 @@ CREATE TABLE `t_account` (
   INDEX `idx_update_time` (`update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 用户流水表
+CREATE TABLE `t_account_flow` (
+  `id` BIGINT AUTO_INCREMENT COMMENT '主键',
+  `uid` BIGINT NOT NULL COMMENT '用户UID',
+  `user_id` VARCHAR(64) NOT NULL COMMENT '用户ID',
+  `flow_id` VARCHAR(64) NOT NULL COMMENT '流水ID',
+  `flow_type` TINYINT NOT NULL COMMENT '流水类型',
+  `biz_type` TINYINT NOT NULL COMMENT '业务类型',
+  `amount` BIGINT NOT NULL COMMENT '金额',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_uid_direct_type` (`uid`,`flow_type`,`flow_id`),
+  INDEX `idx_flow_id` (`flow_id`),
+  INDEX `idx_update_time` (`update_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `t_uid_segment`;
+
 CREATE TABLE `t_uid_segment` (
   `id` BIGINT NOT NULL COMMENT '主键',
   `uid_max` BIGINT NOT NULL COMMENT '已使用的最大用户ID',

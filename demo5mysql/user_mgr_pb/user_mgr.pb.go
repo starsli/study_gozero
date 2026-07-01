@@ -335,6 +335,111 @@ func (x *GetUserBalanceRsp) GetBalance() int64 {
 	return 0
 }
 
+// 更新用户信息
+type UpdateUserInfoReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Age           int32                  `protobuf:"varint,3,opt,name=age,proto3" json:"age,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserInfoReq) Reset() {
+	*x = UpdateUserInfoReq{}
+	mi := &file_user_mgr_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserInfoReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserInfoReq) ProtoMessage() {}
+
+func (x *UpdateUserInfoReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserInfoReq.ProtoReflect.Descriptor instead.
+func (*UpdateUserInfoReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateUserInfoReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoReq) GetAge() int32 {
+	if x != nil {
+		return x.Age
+	}
+	return 0
+}
+
+type UpdateUserInfoRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserInfoRsp) Reset() {
+	*x = UpdateUserInfoRsp{}
+	mi := &file_user_mgr_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserInfoRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserInfoRsp) ProtoMessage() {}
+
+func (x *UpdateUserInfoRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserInfoRsp.ProtoReflect.Descriptor instead.
+func (*UpdateUserInfoRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateUserInfoRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
 // 充值
 type DepositReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -346,7 +451,7 @@ type DepositReq struct {
 
 func (x *DepositReq) Reset() {
 	*x = DepositReq{}
-	mi := &file_user_mgr_proto_msgTypes[6]
+	mi := &file_user_mgr_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -358,7 +463,7 @@ func (x *DepositReq) String() string {
 func (*DepositReq) ProtoMessage() {}
 
 func (x *DepositReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[6]
+	mi := &file_user_mgr_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,7 +476,7 @@ func (x *DepositReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DepositReq.ProtoReflect.Descriptor instead.
 func (*DepositReq) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{6}
+	return file_user_mgr_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DepositReq) GetUserId() string {
@@ -398,7 +503,7 @@ type DepositRsp struct {
 
 func (x *DepositRsp) Reset() {
 	*x = DepositRsp{}
-	mi := &file_user_mgr_proto_msgTypes[7]
+	mi := &file_user_mgr_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -410,7 +515,7 @@ func (x *DepositRsp) String() string {
 func (*DepositRsp) ProtoMessage() {}
 
 func (x *DepositRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[7]
+	mi := &file_user_mgr_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +528,7 @@ func (x *DepositRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DepositRsp.ProtoReflect.Descriptor instead.
 func (*DepositRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{7}
+	return file_user_mgr_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DepositRsp) GetUserId() string {
@@ -451,7 +556,7 @@ type WithdrawReq struct {
 
 func (x *WithdrawReq) Reset() {
 	*x = WithdrawReq{}
-	mi := &file_user_mgr_proto_msgTypes[8]
+	mi := &file_user_mgr_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -463,7 +568,7 @@ func (x *WithdrawReq) String() string {
 func (*WithdrawReq) ProtoMessage() {}
 
 func (x *WithdrawReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[8]
+	mi := &file_user_mgr_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -476,7 +581,7 @@ func (x *WithdrawReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WithdrawReq.ProtoReflect.Descriptor instead.
 func (*WithdrawReq) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{8}
+	return file_user_mgr_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *WithdrawReq) GetUserId() string {
@@ -503,7 +608,7 @@ type WithdrawRsp struct {
 
 func (x *WithdrawRsp) Reset() {
 	*x = WithdrawRsp{}
-	mi := &file_user_mgr_proto_msgTypes[9]
+	mi := &file_user_mgr_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -515,7 +620,7 @@ func (x *WithdrawRsp) String() string {
 func (*WithdrawRsp) ProtoMessage() {}
 
 func (x *WithdrawRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[9]
+	mi := &file_user_mgr_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -528,7 +633,7 @@ func (x *WithdrawRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WithdrawRsp.ProtoReflect.Descriptor instead.
 func (*WithdrawRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{9}
+	return file_user_mgr_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *WithdrawRsp) GetUserId() string {
@@ -543,6 +648,219 @@ func (x *WithdrawRsp) GetBalance() int64 {
 		return x.Balance
 	}
 	return 0
+}
+
+// 获取用户流水
+type GetUserFlowReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Offset        int32                  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"` // 分页偏移量
+	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`   // 分页大小
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserFlowReq) Reset() {
+	*x = GetUserFlowReq{}
+	mi := &file_user_mgr_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserFlowReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserFlowReq) ProtoMessage() {}
+
+func (x *GetUserFlowReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserFlowReq.ProtoReflect.Descriptor instead.
+func (*GetUserFlowReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetUserFlowReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserFlowReq) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+func (x *GetUserFlowReq) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+type GetUserFlowRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Flow          []*GetUserFlowItemRsp  `protobuf:"bytes,2,rep,name=flow,proto3" json:"flow,omitempty"`
+	Flag          int32                  `protobuf:"varint,3,opt,name=flag,proto3" json:"flag,omitempty"`     // 查询结束标记
+	Offset        int32                  `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"` // 分页偏移量
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserFlowRsp) Reset() {
+	*x = GetUserFlowRsp{}
+	mi := &file_user_mgr_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserFlowRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserFlowRsp) ProtoMessage() {}
+
+func (x *GetUserFlowRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserFlowRsp.ProtoReflect.Descriptor instead.
+func (*GetUserFlowRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetUserFlowRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserFlowRsp) GetFlow() []*GetUserFlowItemRsp {
+	if x != nil {
+		return x.Flow
+	}
+	return nil
+}
+
+func (x *GetUserFlowRsp) GetFlag() int32 {
+	if x != nil {
+		return x.Flag
+	}
+	return 0
+}
+
+func (x *GetUserFlowRsp) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type GetUserFlowItemRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FlowId        string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount        int64                  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	BizType       int32                  `protobuf:"varint,4,opt,name=biz_type,json=bizType,proto3" json:"biz_type,omitempty"`
+	FlowType      int32                  `protobuf:"varint,5,opt,name=flow_type,json=flowType,proto3" json:"flow_type,omitempty"`
+	CreateTime    string                 `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserFlowItemRsp) Reset() {
+	*x = GetUserFlowItemRsp{}
+	mi := &file_user_mgr_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserFlowItemRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserFlowItemRsp) ProtoMessage() {}
+
+func (x *GetUserFlowItemRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserFlowItemRsp.ProtoReflect.Descriptor instead.
+func (*GetUserFlowItemRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetUserFlowItemRsp) GetFlowId() string {
+	if x != nil {
+		return x.FlowId
+	}
+	return ""
+}
+
+func (x *GetUserFlowItemRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserFlowItemRsp) GetAmount() int64 {
+	if x != nil {
+		return x.Amount
+	}
+	return 0
+}
+
+func (x *GetUserFlowItemRsp) GetBizType() int32 {
+	if x != nil {
+		return x.BizType
+	}
+	return 0
+}
+
+func (x *GetUserFlowItemRsp) GetFlowType() int32 {
+	if x != nil {
+		return x.FlowType
+	}
+	return 0
+}
+
+func (x *GetUserFlowItemRsp) GetCreateTime() string {
+	if x != nil {
+		return x.CreateTime
+	}
+	return ""
 }
 
 var File_user_mgr_proto protoreflect.FileDescriptor
@@ -567,7 +885,13 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"F\n" +
 	"\x11GetUserBalanceRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
-	"\abalance\x18\x02 \x01(\x03R\abalance\"=\n" +
+	"\abalance\x18\x02 \x01(\x03R\abalance\"R\n" +
+	"\x11UpdateUserInfoReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
+	"\x03age\x18\x03 \x01(\x05R\x03age\",\n" +
+	"\x11UpdateUserInfoRsp\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"=\n" +
 	"\n" +
 	"DepositReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x16\n" +
@@ -581,14 +905,33 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\x06amount\x18\x02 \x01(\x03R\x06amount\"@\n" +
 	"\vWithdrawRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
-	"\abalance\x18\x02 \x01(\x03R\abalance2\xc9\x02\n" +
+	"\abalance\x18\x02 \x01(\x03R\abalance\"W\n" +
+	"\x0eGetUserFlowReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x16\n" +
+	"\x06offset\x18\x02 \x01(\x05R\x06offset\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\x87\x01\n" +
+	"\x0eGetUserFlowRsp\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x120\n" +
+	"\x04flow\x18\x02 \x03(\v2\x1c.user_mgr.GetUserFlowItemRspR\x04flow\x12\x12\n" +
+	"\x04flag\x18\x03 \x01(\x05R\x04flag\x12\x16\n" +
+	"\x06offset\x18\x04 \x01(\x05R\x06offset\"\xb7\x01\n" +
+	"\x12GetUserFlowItemRsp\x12\x17\n" +
+	"\aflow_id\x18\x01 \x01(\tR\x06flowId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
+	"\x06amount\x18\x03 \x01(\x03R\x06amount\x12\x19\n" +
+	"\bbiz_type\x18\x04 \x01(\x05R\abizType\x12\x1b\n" +
+	"\tflow_type\x18\x05 \x01(\x05R\bflowType\x12\x1f\n" +
+	"\vcreate_time\x18\x06 \x01(\tR\n" +
+	"createTime2\xd8\x03\n" +
 	"\aUserMgr\x12>\n" +
 	"\n" +
 	"CreateUser\x12\x17.user_mgr.CreateUserReq\x1a\x17.user_mgr.CreateUserRsp\x12A\n" +
 	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12J\n" +
+	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12J\n" +
 	"\x0eGetUserBalance\x12\x1b.user_mgr.GetUserBalanceReq\x1a\x1b.user_mgr.GetUserBalanceRsp\x125\n" +
 	"\aDeposit\x12\x14.user_mgr.DepositReq\x1a\x14.user_mgr.DepositRsp\x128\n" +
-	"\bWithdraw\x12\x15.user_mgr.WithdrawReq\x1a\x15.user_mgr.WithdrawRspB\x0fZ\r./user_mgr_pbb\x06proto3"
+	"\bWithdraw\x12\x15.user_mgr.WithdrawReq\x1a\x15.user_mgr.WithdrawRsp\x12A\n" +
+	"\vGetUserFlow\x12\x18.user_mgr.GetUserFlowReq\x1a\x18.user_mgr.GetUserFlowRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
 var (
 	file_user_mgr_proto_rawDescOnce sync.Once
@@ -602,35 +945,45 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 	return file_user_mgr_proto_rawDescData
 }
 
-var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_user_mgr_proto_goTypes = []any{
-	(*CreateUserReq)(nil),     // 0: user_mgr.CreateUserReq
-	(*CreateUserRsp)(nil),     // 1: user_mgr.CreateUserRsp
-	(*GetUserInfoReq)(nil),    // 2: user_mgr.GetUserInfoReq
-	(*GetUserInfoRsp)(nil),    // 3: user_mgr.GetUserInfoRsp
-	(*GetUserBalanceReq)(nil), // 4: user_mgr.GetUserBalanceReq
-	(*GetUserBalanceRsp)(nil), // 5: user_mgr.GetUserBalanceRsp
-	(*DepositReq)(nil),        // 6: user_mgr.DepositReq
-	(*DepositRsp)(nil),        // 7: user_mgr.DepositRsp
-	(*WithdrawReq)(nil),       // 8: user_mgr.WithdrawReq
-	(*WithdrawRsp)(nil),       // 9: user_mgr.WithdrawRsp
+	(*CreateUserReq)(nil),      // 0: user_mgr.CreateUserReq
+	(*CreateUserRsp)(nil),      // 1: user_mgr.CreateUserRsp
+	(*GetUserInfoReq)(nil),     // 2: user_mgr.GetUserInfoReq
+	(*GetUserInfoRsp)(nil),     // 3: user_mgr.GetUserInfoRsp
+	(*GetUserBalanceReq)(nil),  // 4: user_mgr.GetUserBalanceReq
+	(*GetUserBalanceRsp)(nil),  // 5: user_mgr.GetUserBalanceRsp
+	(*UpdateUserInfoReq)(nil),  // 6: user_mgr.UpdateUserInfoReq
+	(*UpdateUserInfoRsp)(nil),  // 7: user_mgr.UpdateUserInfoRsp
+	(*DepositReq)(nil),         // 8: user_mgr.DepositReq
+	(*DepositRsp)(nil),         // 9: user_mgr.DepositRsp
+	(*WithdrawReq)(nil),        // 10: user_mgr.WithdrawReq
+	(*WithdrawRsp)(nil),        // 11: user_mgr.WithdrawRsp
+	(*GetUserFlowReq)(nil),     // 12: user_mgr.GetUserFlowReq
+	(*GetUserFlowRsp)(nil),     // 13: user_mgr.GetUserFlowRsp
+	(*GetUserFlowItemRsp)(nil), // 14: user_mgr.GetUserFlowItemRsp
 }
 var file_user_mgr_proto_depIdxs = []int32{
-	0, // 0: user_mgr.UserMgr.CreateUser:input_type -> user_mgr.CreateUserReq
-	2, // 1: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
-	4, // 2: user_mgr.UserMgr.GetUserBalance:input_type -> user_mgr.GetUserBalanceReq
-	6, // 3: user_mgr.UserMgr.Deposit:input_type -> user_mgr.DepositReq
-	8, // 4: user_mgr.UserMgr.Withdraw:input_type -> user_mgr.WithdrawReq
-	1, // 5: user_mgr.UserMgr.CreateUser:output_type -> user_mgr.CreateUserRsp
-	3, // 6: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
-	5, // 7: user_mgr.UserMgr.GetUserBalance:output_type -> user_mgr.GetUserBalanceRsp
-	7, // 8: user_mgr.UserMgr.Deposit:output_type -> user_mgr.DepositRsp
-	9, // 9: user_mgr.UserMgr.Withdraw:output_type -> user_mgr.WithdrawRsp
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	14, // 0: user_mgr.GetUserFlowRsp.flow:type_name -> user_mgr.GetUserFlowItemRsp
+	0,  // 1: user_mgr.UserMgr.CreateUser:input_type -> user_mgr.CreateUserReq
+	2,  // 2: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
+	6,  // 3: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
+	4,  // 4: user_mgr.UserMgr.GetUserBalance:input_type -> user_mgr.GetUserBalanceReq
+	8,  // 5: user_mgr.UserMgr.Deposit:input_type -> user_mgr.DepositReq
+	10, // 6: user_mgr.UserMgr.Withdraw:input_type -> user_mgr.WithdrawReq
+	12, // 7: user_mgr.UserMgr.GetUserFlow:input_type -> user_mgr.GetUserFlowReq
+	1,  // 8: user_mgr.UserMgr.CreateUser:output_type -> user_mgr.CreateUserRsp
+	3,  // 9: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
+	7,  // 10: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
+	5,  // 11: user_mgr.UserMgr.GetUserBalance:output_type -> user_mgr.GetUserBalanceRsp
+	9,  // 12: user_mgr.UserMgr.Deposit:output_type -> user_mgr.DepositRsp
+	11, // 13: user_mgr.UserMgr.Withdraw:output_type -> user_mgr.WithdrawRsp
+	13, // 14: user_mgr.UserMgr.GetUserFlow:output_type -> user_mgr.GetUserFlowRsp
+	8,  // [8:15] is the sub-list for method output_type
+	1,  // [1:8] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_user_mgr_proto_init() }
@@ -644,7 +997,7 @@ func file_user_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_mgr_proto_rawDesc), len(file_user_mgr_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

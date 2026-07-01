@@ -13,7 +13,7 @@ type (
 	// and implement the added methods in customTUidSegmentModel.
 	TUidSegmentModel interface {
 		tUidSegmentModel
-		withSession(session sqlx.Session) TUidSegmentModel
+		WithSession(session sqlx.Session) TUidSegmentModel
 		TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TUidSegmentModel) error) error
 		FindOneForUpdate(ctx context.Context, id int64) (*TUidSegment, error)
 	}
@@ -30,14 +30,14 @@ func NewTUidSegmentModel(conn sqlx.SqlConn) TUidSegmentModel {
 	}
 }
 
-func (m *customTUidSegmentModel) withSession(session sqlx.Session) TUidSegmentModel {
+func (m *customTUidSegmentModel) WithSession(session sqlx.Session) TUidSegmentModel {
 	return NewTUidSegmentModel(sqlx.NewSqlConnFromSession(session))
 }
 
 // TransactCtx 事务封装，回调中直接使用 TUidSegmentModel 方法
 func (m *customTUidSegmentModel) TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TUidSegmentModel) error) error {
 	return m.conn.TransactCtx(ctx, func(ctx context.Context, tx sqlx.Session) error {
-		return fn(ctx, m.withSession(tx))
+		return fn(ctx, m.WithSession(tx))
 	})
 }
 

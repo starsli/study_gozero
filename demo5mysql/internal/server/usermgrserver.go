@@ -33,6 +33,11 @@ func (s *UserMgrServer) GetUserInfo(ctx context.Context, in *user_mgr_pb.GetUser
 	return l.GetUserInfo(in)
 }
 
+func (s *UserMgrServer) UpdateUserInfo(ctx context.Context, in *user_mgr_pb.UpdateUserInfoReq) (*user_mgr_pb.UpdateUserInfoRsp, error) {
+	l := logic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
+	return l.UpdateUserInfo(in)
+}
+
 func (s *UserMgrServer) GetUserBalance(ctx context.Context, in *user_mgr_pb.GetUserBalanceReq) (*user_mgr_pb.GetUserBalanceRsp, error) {
 	l := logic.NewGetUserBalanceLogic(ctx, s.svcCtx)
 	return l.GetUserBalance(in)
@@ -46,4 +51,9 @@ func (s *UserMgrServer) Deposit(ctx context.Context, in *user_mgr_pb.DepositReq)
 func (s *UserMgrServer) Withdraw(ctx context.Context, in *user_mgr_pb.WithdrawReq) (*user_mgr_pb.WithdrawRsp, error) {
 	l := logic.NewWithdrawLogic(ctx, s.svcCtx)
 	return l.Withdraw(in)
+}
+
+func (s *UserMgrServer) GetUserFlow(ctx context.Context, in *user_mgr_pb.GetUserFlowReq) (*user_mgr_pb.GetUserFlowRsp, error) {
+	l := logic.NewGetUserFlowLogic(ctx, s.svcCtx)
+	return l.GetUserFlow(in)
 }

@@ -14,23 +14,30 @@ import (
 )
 
 type (
-	CreateUserReq     = user_mgr_pb.CreateUserReq
-	CreateUserRsp     = user_mgr_pb.CreateUserRsp
-	DepositReq        = user_mgr_pb.DepositReq
-	DepositRsp        = user_mgr_pb.DepositRsp
-	GetUserBalanceReq = user_mgr_pb.GetUserBalanceReq
-	GetUserBalanceRsp = user_mgr_pb.GetUserBalanceRsp
-	GetUserInfoReq    = user_mgr_pb.GetUserInfoReq
-	GetUserInfoRsp    = user_mgr_pb.GetUserInfoRsp
-	WithdrawReq       = user_mgr_pb.WithdrawReq
-	WithdrawRsp       = user_mgr_pb.WithdrawRsp
+	CreateUserReq      = user_mgr_pb.CreateUserReq
+	CreateUserRsp      = user_mgr_pb.CreateUserRsp
+	DepositReq         = user_mgr_pb.DepositReq
+	DepositRsp         = user_mgr_pb.DepositRsp
+	GetUserBalanceReq  = user_mgr_pb.GetUserBalanceReq
+	GetUserBalanceRsp  = user_mgr_pb.GetUserBalanceRsp
+	GetUserFlowItemRsp = user_mgr_pb.GetUserFlowItemRsp
+	GetUserFlowReq     = user_mgr_pb.GetUserFlowReq
+	GetUserFlowRsp     = user_mgr_pb.GetUserFlowRsp
+	GetUserInfoReq     = user_mgr_pb.GetUserInfoReq
+	GetUserInfoRsp     = user_mgr_pb.GetUserInfoRsp
+	UpdateUserInfoReq  = user_mgr_pb.UpdateUserInfoReq
+	UpdateUserInfoRsp  = user_mgr_pb.UpdateUserInfoRsp
+	WithdrawReq        = user_mgr_pb.WithdrawReq
+	WithdrawRsp        = user_mgr_pb.WithdrawRsp
 
 	UserMgr interface {
 		CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRsp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
+		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceRsp, error)
 		Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositRsp, error)
 		Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawRsp, error)
+		GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error)
 	}
 
 	defaultUserMgr struct {
@@ -54,6 +61,11 @@ func (m *defaultUserMgr) GetUserInfo(ctx context.Context, in *GetUserInfoReq, op
 	return client.GetUserInfo(ctx, in, opts...)
 }
 
+func (m *defaultUserMgr) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.UpdateUserInfo(ctx, in, opts...)
+}
+
 func (m *defaultUserMgr) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
@@ -67,4 +79,9 @@ func (m *defaultUserMgr) Deposit(ctx context.Context, in *DepositReq, opts ...gr
 func (m *defaultUserMgr) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.Withdraw(ctx, in, opts...)
+}
+
+func (m *defaultUserMgr) GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.GetUserFlow(ctx, in, opts...)
 }
