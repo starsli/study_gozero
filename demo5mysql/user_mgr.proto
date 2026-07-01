@@ -4,15 +4,22 @@ package user_mgr;
 // 相对路径;包名
 option go_package = "./user_mgr_pb";
 
-// 创建用户Req
-message CreateUserReq {
+// 注册用户Req
+message RegUserReq {
     string user_id = 1;
-    string name = 2;
-    int32 age = 3;
+    string password = 2;
+    string name = 3;
+    int32 gender = 5;
+    int32 age = 4;
+    string address = 6;
+    string phone = 7;
+    string email = 8;
+    int32 id_type = 9;
+    string id_card = 10;
 }
 
-// 创建用户Req
-message CreateUserRsp {
+// 注册用户Rsp
+message RegUserRsp {
     string user_id = 1;
     int32 is_repeat = 2;
 }
@@ -24,7 +31,13 @@ message GetUserInfoReq {
 message GetUserInfoRsp {
     string user_id = 1;
     string name = 2;
-    int32 age = 3;
+    int32 gender = 3;
+    int32 age = 4;
+    string address = 5;
+    string phone = 6;
+    string email = 7;
+    int32 id_type = 8;
+    string id_card = 9;
 }
 
 message GetUserBalanceReq {
@@ -40,7 +53,13 @@ message GetUserBalanceRsp {
 message UpdateUserInfoReq {
     string user_id = 1;
     string name = 2;
-    int32 age = 3;
+    int32 gender = 3;
+    int32 age = 4;
+    string address = 5;
+    string phone = 6;
+    string email = 7;
+    int32 id_type = 8;
+    string id_card = 9;
 }
 
 message UpdateUserInfoRsp {
@@ -51,6 +70,9 @@ message UpdateUserInfoRsp {
 message DepositReq {
     string user_id = 1;
     int64 amount = 2;
+    int64 bank_type = 3;
+    string bind_serial = 4;
+    string password = 5;
 }
 
 message DepositRsp {
@@ -62,6 +84,9 @@ message DepositRsp {
 message WithdrawReq {
     string user_id = 1;
     int64 amount = 2;
+    int64 bank_type = 3;
+    string bind_serial = 4;
+    string password = 5;
 }
 
 message WithdrawRsp {
@@ -90,16 +115,21 @@ message GetUserFlowItemRsp {
     int32 biz_type = 4;
     int32 flow_type = 5;
     string create_time = 6;
+    int64 counterparty_id = 7;
 }
 
 service UserMgr {
-    rpc CreateUser(CreateUserReq) returns (CreateUserRsp);
+    // 用户相关
+    rpc RegUser(RegUserReq) returns (RegUserRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
     rpc UpdateUserInfo(UpdateUserInfoReq) returns (UpdateUserInfoRsp);
+
+    rpc GetUserFlow(GetUserFlowReq) returns (GetUserFlowRsp);
     rpc GetUserBalance(GetUserBalanceReq) returns (GetUserBalanceRsp);
+
+    // 交易相关
     rpc Deposit(DepositReq) returns (DepositRsp);
     rpc Withdraw(WithdrawReq) returns (WithdrawRsp);
-    rpc GetUserFlow(GetUserFlowReq) returns (GetUserFlowRsp);
 }
 
 /*

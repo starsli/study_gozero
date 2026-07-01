@@ -12,35 +12,30 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
-type CreateUserLogic struct {
+type RegUserLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateUserLogic {
-	return &CreateUserLogic{
+func NewRegUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegUserLogic {
+	return &RegUserLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_pb.CreateUserRsp, error) {
-	// 校验字段长度
-	// UserId[1,64]
-	// Age[1,256]
-	// Name[1,64]
-	if len(in.UserId) < 1 || len(in.UserId) > 64 {
-		return nil, errors.New("userId length is not in range [1,64]")
+// 用户相关
+func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUserRsp, error) {
+	if err := CheckUserId(in.UserId); err != nil {
+		return nil, err
 	}
-
-	if len(in.Name) < 1 || len(in.Name) > 64 {
-		return nil, errors.New("name length is not in range [1,64]")
+	if err := CheckName(in.Name); err != nil {
+		return nil, err
 	}
-
-	if in.Age < 1 || in.Age > 256 {
-		return nil, errors.New("age is not in range [1,256]")
+	if err := CheckAge(in.Age); err != nil {
+		return nil, err
 	}
 
 	// 先查询relation是否已经存在
@@ -59,11 +54,19 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 				return nil, err
 			}
 
-			if userInfoTmp.Name != in.Name || userInfoTmp.Age != int64(in.Age) {
+			if userInfoTmp.Name != in.Name ||
+				userInfoTmp.Password != in.Password ||
+				userInfoTmp.Age != int64(in.Age) ||
+				userInfoTmp.Gender != int64(in.Gender) ||
+				userInfoTmp.Address != in.Address ||
+				userInfoTmp.Phone != in.Phone ||
+				userInfoTmp.Email != in.Email ||
+				userInfoTmp.IdType != int64(in.IdType) ||
+				userInfoTmp.IdCard != in.IdCard {
 				return nil, errors.New("user info is not consistent")
 			}
 
-			return &user_mgr_pb.CreateUserRsp{
+			return &user_mgr_pb.RegUserRsp{
 				UserId:   in.UserId,
 				IsRepeat: 1,
 			}, nil
@@ -75,34 +78,40 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 	// 生成用户ID
 	newUid, err := l.generateUid()
 
-	l.Logger.Infof("starsli1 generateUid: %v", newUid)
-
 	if err != nil {
 		l.Logger.Errorf("generateUid failed: %v", err)
 		return nil, err
 	}
 
-	l.Logger.Infof("starsli2 generateUid: %v", newUid)
-	l.svcCtx.TRelationModel.Insert(l.ctx, &mysql.TRelation{
+	_, err = l.svcCtx.TRelationModel.Insert(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
 		Uid:    newUid,
 		State:  RelationStateRegistering, // 注册中
 	})
+	if err != nil {
+		l.Logger.Errorf("insert relation failed: %v", err)
+		return nil, err
+	}
 
-	l.Logger.Infof("starsli3 generateUid: %v", newUid)
 	// 插入用户信息
 	_, err = l.svcCtx.TUserInfoModel.Insert(l.ctx, &mysql.TUserInfo{
-		Uid:    newUid,
-		UserId: in.UserId,
-		Name:   in.Name,
-		Age:    int64(in.Age),
+		Uid:      newUid,
+		UserId:   in.UserId,
+		Password: in.Password,
+		Name:     in.Name,
+		Gender:   int64(in.Gender),
+		Age:      int64(in.Age),
+		Address:  in.Address,
+		Phone:    in.Phone,
+		Email:    in.Email,
+		IdType:   int64(in.IdType),
+		IdCard:   in.IdCard,
 	})
 	if err != nil {
 		l.Logger.Errorf("insert user info failed: %v", err)
 		return nil, err
 	}
 
-	l.Logger.Infof("starsli generateUid: %v", newUid)
 	_, err = l.svcCtx.TAccountModel.Insert(l.ctx, &mysql.TAccount{
 		Uid:     newUid,
 		UserId:  in.UserId,
@@ -113,20 +122,24 @@ func (l *CreateUserLogic) CreateUser(in *user_mgr_pb.CreateUserReq) (*user_mgr_p
 		return nil, err
 	}
 
-	l.svcCtx.TRelationModel.Update(l.ctx, &mysql.TRelation{
+	err = l.svcCtx.TRelationModel.Update(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
 		Uid:    newUid,
 		State:  RelationStateRegistered, // 注册成功
 	})
+	if err != nil {
+		l.Logger.Errorf("update relation state failed: %v", err)
+		return nil, err
+	}
 
-	return &user_mgr_pb.CreateUserRsp{
+	return &user_mgr_pb.RegUserRsp{
 		UserId:   in.UserId,
 		IsRepeat: 0,
 	}, nil
 }
 
 // generateUid 从 t_uid_segment 获取一个UID，需要在事务中完成
-func (l *CreateUserLogic) generateUid() (int64, error) {
+func (l *RegUserLogic) generateUid() (int64, error) {
 	var newUid int64
 	err := l.svcCtx.TUidSegmentModel.TransactCtx(l.ctx, func(ctx context.Context, tx mysql.TUidSegmentModel) error {
 		// 查询当前 segment (使用 FOR UPDATE 锁定行)

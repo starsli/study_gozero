@@ -1,6 +1,10 @@
 package mysql
 
-import "github.com/zeromicro/go-zero/core/stores/sqlx"
+import (
+	"context"
+
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+)
 
 var _ TUserInfoModel = (*customTUserInfoModel)(nil)
 
@@ -9,7 +13,8 @@ type (
 	// and implement the added methods in customTUserInfoModel.
 	TUserInfoModel interface {
 		tUserInfoModel
-		withSession(session sqlx.Session) TUserInfoModel
+		WithSession(session sqlx.Session) TUserInfoModel
+		TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TUserInfoModel) error) error
 	}
 
 	customTUserInfoModel struct {
@@ -24,6 +29,13 @@ func NewTUserInfoModel(conn sqlx.SqlConn) TUserInfoModel {
 	}
 }
 
-func (m *customTUserInfoModel) withSession(session sqlx.Session) TUserInfoModel {
+func (m *customTUserInfoModel) WithSession(session sqlx.Session) TUserInfoModel {
 	return NewTUserInfoModel(sqlx.NewSqlConnFromSession(session))
+}
+
+// TransactCtx 事务封装
+func (m *customTUserInfoModel) TransactCtx(ctx context.Context, fn func(ctx context.Context, tx TUserInfoModel) error) error {
+	return m.conn.TransactCtx(ctx, func(ctx context.Context, tx sqlx.Session) error {
+		return fn(ctx, m.WithSession(tx))
+	})
 }

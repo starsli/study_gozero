@@ -38,15 +38,16 @@ type (
 	}
 
 	TAccountFlow struct {
-		Id         int64     `db:"id"`        // 主键
-		Uid        int64     `db:"uid"`       // 用户UID
-		UserId     string    `db:"user_id"`   // 用户ID
-		FlowId     string    `db:"flow_id"`   // 流水ID
-		FlowType   int64     `db:"flow_type"` // 流水类型
-		BizType    int64     `db:"biz_type"`  // 业务类型
-		Amount     int64     `db:"amount"`    // 金额
-		CreateTime time.Time `db:"create_time"`
-		UpdateTime time.Time `db:"update_time"`
+		Id             int64     `db:"id"`              // 主键
+		Uid            int64     `db:"uid"`             // 用户UID
+		CounterpartyId int64     `db:"counterparty_id"` // 对方用户UID
+		UserId         string    `db:"user_id"`         // 用户ID
+		FlowId         string    `db:"flow_id"`         // 流水ID
+		FlowType       int64     `db:"flow_type"`       // 流水类型
+		BizType        int64     `db:"biz_type"`        // 业务类型
+		Amount         int64     `db:"amount"`          // 金额
+		CreateTime     time.Time `db:"create_time"`
+		UpdateTime     time.Time `db:"update_time"`
 	}
 )
 
@@ -92,14 +93,14 @@ func (m *defaultTAccountFlowModel) FindOneByUidFlowTypeFlowId(ctx context.Contex
 }
 
 func (m *defaultTAccountFlowModel) Insert(ctx context.Context, data *TAccountFlow) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, tAccountFlowRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.UserId, data.FlowId, data.FlowType, data.BizType, data.Amount)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, tAccountFlowRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.CounterpartyId, data.UserId, data.FlowId, data.FlowType, data.BizType, data.Amount)
 	return ret, err
 }
 
 func (m *defaultTAccountFlowModel) Update(ctx context.Context, newData *TAccountFlow) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tAccountFlowRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.Uid, newData.UserId, newData.FlowId, newData.FlowType, newData.BizType, newData.Amount, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.Uid, newData.CounterpartyId, newData.UserId, newData.FlowId, newData.FlowType, newData.BizType, newData.Amount, newData.Id)
 	return err
 }
 

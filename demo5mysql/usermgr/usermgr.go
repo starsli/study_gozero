@@ -14,8 +14,6 @@ import (
 )
 
 type (
-	CreateUserReq      = user_mgr_pb.CreateUserReq
-	CreateUserRsp      = user_mgr_pb.CreateUserRsp
 	DepositReq         = user_mgr_pb.DepositReq
 	DepositRsp         = user_mgr_pb.DepositRsp
 	GetUserBalanceReq  = user_mgr_pb.GetUserBalanceReq
@@ -25,19 +23,23 @@ type (
 	GetUserFlowRsp     = user_mgr_pb.GetUserFlowRsp
 	GetUserInfoReq     = user_mgr_pb.GetUserInfoReq
 	GetUserInfoRsp     = user_mgr_pb.GetUserInfoRsp
+	RegUserReq         = user_mgr_pb.RegUserReq
+	RegUserRsp         = user_mgr_pb.RegUserRsp
 	UpdateUserInfoReq  = user_mgr_pb.UpdateUserInfoReq
 	UpdateUserInfoRsp  = user_mgr_pb.UpdateUserInfoRsp
 	WithdrawReq        = user_mgr_pb.WithdrawReq
 	WithdrawRsp        = user_mgr_pb.WithdrawRsp
 
 	UserMgr interface {
-		CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRsp, error)
+		// 用户相关
+		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
+		GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error)
 		GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceRsp, error)
+		// 交易相关
 		Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositRsp, error)
 		Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawRsp, error)
-		GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error)
 	}
 
 	defaultUserMgr struct {
@@ -51,9 +53,10 @@ func NewUserMgr(cli zrpc.Client) UserMgr {
 	}
 }
 
-func (m *defaultUserMgr) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRsp, error) {
+// 用户相关
+func (m *defaultUserMgr) RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
-	return client.CreateUser(ctx, in, opts...)
+	return client.RegUser(ctx, in, opts...)
 }
 
 func (m *defaultUserMgr) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
@@ -66,11 +69,17 @@ func (m *defaultUserMgr) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoR
 	return client.UpdateUserInfo(ctx, in, opts...)
 }
 
+func (m *defaultUserMgr) GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.GetUserFlow(ctx, in, opts...)
+}
+
 func (m *defaultUserMgr) GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.GetUserBalance(ctx, in, opts...)
 }
 
+// 交易相关
 func (m *defaultUserMgr) Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.Deposit(ctx, in, opts...)
@@ -79,9 +88,4 @@ func (m *defaultUserMgr) Deposit(ctx context.Context, in *DepositReq, opts ...gr
 func (m *defaultUserMgr) Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.Withdraw(ctx, in, opts...)
-}
-
-func (m *defaultUserMgr) GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error) {
-	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
-	return client.GetUserFlow(ctx, in, opts...)
 }

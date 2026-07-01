@@ -3,7 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"math"
 
 	"demo5mysql/internal/svc"
 	"demo5mysql/model/mysql"
@@ -29,27 +28,24 @@ func NewWithdrawLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Withdraw
 }
 
 func (l *WithdrawLogic) Withdraw(in *user_mgr_pb.WithdrawReq) (*user_mgr_pb.WithdrawRsp, error) {
-	// 校验字段长度
-	// UserId[1,64]
-	// Amount[1,int64.Max]
-	if len(in.UserId) < 1 || len(in.UserId) > 64 {
-		return nil, errors.New("userId length is not in range [1,64]")
+	if err := CheckUserId(in.UserId); err != nil {
+		return nil, err
+	}
+	if err := CheckAmount(in.Amount); err != nil {
+		return nil, err
 	}
 
-	if in.Amount < 1 || in.Amount > math.MaxInt64 {
-		return nil, errors.New("amount is not in range [1,int64.Max]")
-	}
-
-	relation, err := l.svcCtx.TRelationModel.FindOne(l.ctx, in.UserId)
+	relation, err := CheckUserRegistered(l.ctx, l.svcCtx.TRelationModel, in.UserId)
 	if err != nil {
-		if err == sqlx.ErrNotFound {
-			return nil, errors.New("user not registered")
-		} else {
-			return nil, err
-		}
+		return nil, err
 	}
-	if relation.State != RelationStateRegistered {
-		return nil, errors.New("user not registered")
+
+	userInfo, err := l.svcCtx.TUserInfoModel.FindOne(l.ctx, relation.Uid)
+	if err != nil {
+		return nil, err
+	}
+	if userInfo.Password != in.Password {
+		return nil, errors.New("password is incorrect")
 	}
 
 	flowId := uuid.New().String()
@@ -64,6 +60,10 @@ func (l *WithdrawLogic) Withdraw(in *user_mgr_pb.WithdrawReq) (*user_mgr_pb.With
 		}
 
 		retBalance = account.Balance - in.Amount
+		if retBalance < 0 {
+			return errors.New("balance is not enough")
+		}
+
 		account.Balance = retBalance
 		err = txAccount.Update(ctx, account)
 		if err != nil {
@@ -71,13 +71,17 @@ func (l *WithdrawLogic) Withdraw(in *user_mgr_pb.WithdrawReq) (*user_mgr_pb.With
 		}
 
 		_, err = txFlow.Insert(ctx, &mysql.TAccountFlow{
-			Uid:      relation.Uid,
-			UserId:   in.UserId,
-			FlowId:   flowId,
-			FlowType: FlowTypeOut,
-			BizType:  BizTypeWithdraw,
-			Amount:   in.Amount,
+			Uid:            relation.Uid,
+			UserId:         in.UserId,
+			FlowId:         flowId,
+			FlowType:       FlowTypeOut,
+			BizType:        BizTypeWithdraw,
+			Amount:         in.Amount,
+			CounterpartyId: in.BankType,
 		})
+
+		// TODO 记录提现单
+
 		return err
 	})
 	if err != nil {

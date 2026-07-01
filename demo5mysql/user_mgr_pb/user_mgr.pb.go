@@ -21,30 +21,37 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 创建用户Req
-type CreateUserReq struct {
+// 注册用户Req
+type RegUserReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Age           int32                  `protobuf:"varint,3,opt,name=age,proto3" json:"age,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Gender        int32                  `protobuf:"varint,5,opt,name=gender,proto3" json:"gender,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	Address       string                 `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty"`
+	Phone         string                 `protobuf:"bytes,7,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         string                 `protobuf:"bytes,8,opt,name=email,proto3" json:"email,omitempty"`
+	IdType        int32                  `protobuf:"varint,9,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"`
+	IdCard        string                 `protobuf:"bytes,10,opt,name=id_card,json=idCard,proto3" json:"id_card,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateUserReq) Reset() {
-	*x = CreateUserReq{}
+func (x *RegUserReq) Reset() {
+	*x = RegUserReq{}
 	mi := &file_user_mgr_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateUserReq) String() string {
+func (x *RegUserReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateUserReq) ProtoMessage() {}
+func (*RegUserReq) ProtoMessage() {}
 
-func (x *CreateUserReq) ProtoReflect() protoreflect.Message {
+func (x *RegUserReq) ProtoReflect() protoreflect.Message {
 	mi := &file_user_mgr_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,34 +63,83 @@ func (x *CreateUserReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateUserReq.ProtoReflect.Descriptor instead.
-func (*CreateUserReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use RegUserReq.ProtoReflect.Descriptor instead.
+func (*RegUserReq) Descriptor() ([]byte, []int) {
 	return file_user_mgr_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateUserReq) GetUserId() string {
+func (x *RegUserReq) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *CreateUserReq) GetName() string {
+func (x *RegUserReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *RegUserReq) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *CreateUserReq) GetAge() int32 {
+func (x *RegUserReq) GetGender() int32 {
+	if x != nil {
+		return x.Gender
+	}
+	return 0
+}
+
+func (x *RegUserReq) GetAge() int32 {
 	if x != nil {
 		return x.Age
 	}
 	return 0
 }
 
-// 创建用户Req
-type CreateUserRsp struct {
+func (x *RegUserReq) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *RegUserReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *RegUserReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RegUserReq) GetIdType() int32 {
+	if x != nil {
+		return x.IdType
+	}
+	return 0
+}
+
+func (x *RegUserReq) GetIdCard() string {
+	if x != nil {
+		return x.IdCard
+	}
+	return ""
+}
+
+// 注册用户Rsp
+type RegUserRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	IsRepeat      int32                  `protobuf:"varint,2,opt,name=is_repeat,json=isRepeat,proto3" json:"is_repeat,omitempty"`
@@ -91,20 +147,20 @@ type CreateUserRsp struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateUserRsp) Reset() {
-	*x = CreateUserRsp{}
+func (x *RegUserRsp) Reset() {
+	*x = RegUserRsp{}
 	mi := &file_user_mgr_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateUserRsp) String() string {
+func (x *RegUserRsp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateUserRsp) ProtoMessage() {}
+func (*RegUserRsp) ProtoMessage() {}
 
-func (x *CreateUserRsp) ProtoReflect() protoreflect.Message {
+func (x *RegUserRsp) ProtoReflect() protoreflect.Message {
 	mi := &file_user_mgr_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -116,19 +172,19 @@ func (x *CreateUserRsp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateUserRsp.ProtoReflect.Descriptor instead.
-func (*CreateUserRsp) Descriptor() ([]byte, []int) {
+// Deprecated: Use RegUserRsp.ProtoReflect.Descriptor instead.
+func (*RegUserRsp) Descriptor() ([]byte, []int) {
 	return file_user_mgr_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateUserRsp) GetUserId() string {
+func (x *RegUserRsp) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *CreateUserRsp) GetIsRepeat() int32 {
+func (x *RegUserRsp) GetIsRepeat() int32 {
 	if x != nil {
 		return x.IsRepeat
 	}
@@ -183,7 +239,13 @@ type GetUserInfoRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Age           int32                  `protobuf:"varint,3,opt,name=age,proto3" json:"age,omitempty"`
+	Gender        int32                  `protobuf:"varint,3,opt,name=gender,proto3" json:"gender,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	Address       string                 `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty"`
+	Phone         string                 `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
+	IdType        int32                  `protobuf:"varint,8,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"`
+	IdCard        string                 `protobuf:"bytes,9,opt,name=id_card,json=idCard,proto3" json:"id_card,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -232,11 +294,53 @@ func (x *GetUserInfoRsp) GetName() string {
 	return ""
 }
 
+func (x *GetUserInfoRsp) GetGender() int32 {
+	if x != nil {
+		return x.Gender
+	}
+	return 0
+}
+
 func (x *GetUserInfoRsp) GetAge() int32 {
 	if x != nil {
 		return x.Age
 	}
 	return 0
+}
+
+func (x *GetUserInfoRsp) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *GetUserInfoRsp) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *GetUserInfoRsp) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *GetUserInfoRsp) GetIdType() int32 {
+	if x != nil {
+		return x.IdType
+	}
+	return 0
+}
+
+func (x *GetUserInfoRsp) GetIdCard() string {
+	if x != nil {
+		return x.IdCard
+	}
+	return ""
 }
 
 type GetUserBalanceReq struct {
@@ -340,7 +444,13 @@ type UpdateUserInfoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Age           int32                  `protobuf:"varint,3,opt,name=age,proto3" json:"age,omitempty"`
+	Gender        int32                  `protobuf:"varint,3,opt,name=gender,proto3" json:"gender,omitempty"`
+	Age           int32                  `protobuf:"varint,4,opt,name=age,proto3" json:"age,omitempty"`
+	Address       string                 `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty"`
+	Phone         string                 `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
+	IdType        int32                  `protobuf:"varint,8,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"`
+	IdCard        string                 `protobuf:"bytes,9,opt,name=id_card,json=idCard,proto3" json:"id_card,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -389,11 +499,53 @@ func (x *UpdateUserInfoReq) GetName() string {
 	return ""
 }
 
+func (x *UpdateUserInfoReq) GetGender() int32 {
+	if x != nil {
+		return x.Gender
+	}
+	return 0
+}
+
 func (x *UpdateUserInfoReq) GetAge() int32 {
 	if x != nil {
 		return x.Age
 	}
 	return 0
+}
+
+func (x *UpdateUserInfoReq) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoReq) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateUserInfoReq) GetIdType() int32 {
+	if x != nil {
+		return x.IdType
+	}
+	return 0
+}
+
+func (x *UpdateUserInfoReq) GetIdCard() string {
+	if x != nil {
+		return x.IdCard
+	}
+	return ""
 }
 
 type UpdateUserInfoRsp struct {
@@ -445,6 +597,9 @@ type DepositReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	BankType      int64                  `protobuf:"varint,3,opt,name=bank_type,json=bankType,proto3" json:"bank_type,omitempty"`
+	BindSerial    string                 `protobuf:"bytes,4,opt,name=bind_serial,json=bindSerial,proto3" json:"bind_serial,omitempty"`
+	Password      string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -491,6 +646,27 @@ func (x *DepositReq) GetAmount() int64 {
 		return x.Amount
 	}
 	return 0
+}
+
+func (x *DepositReq) GetBankType() int64 {
+	if x != nil {
+		return x.BankType
+	}
+	return 0
+}
+
+func (x *DepositReq) GetBindSerial() string {
+	if x != nil {
+		return x.BindSerial
+	}
+	return ""
+}
+
+func (x *DepositReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
 }
 
 type DepositRsp struct {
@@ -550,6 +726,9 @@ type WithdrawReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Amount        int64                  `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	BankType      int64                  `protobuf:"varint,3,opt,name=bank_type,json=bankType,proto3" json:"bank_type,omitempty"`
+	BindSerial    string                 `protobuf:"bytes,4,opt,name=bind_serial,json=bindSerial,proto3" json:"bind_serial,omitempty"`
+	Password      string                 `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -596,6 +775,27 @@ func (x *WithdrawReq) GetAmount() int64 {
 		return x.Amount
 	}
 	return 0
+}
+
+func (x *WithdrawReq) GetBankType() int64 {
+	if x != nil {
+		return x.BankType
+	}
+	return 0
+}
+
+func (x *WithdrawReq) GetBindSerial() string {
+	if x != nil {
+		return x.BindSerial
+	}
+	return ""
+}
+
+func (x *WithdrawReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
 }
 
 type WithdrawRsp struct {
@@ -780,15 +980,16 @@ func (x *GetUserFlowRsp) GetOffset() int32 {
 }
 
 type GetUserFlowItemRsp struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	FlowId        string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Amount        int64                  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	BizType       int32                  `protobuf:"varint,4,opt,name=biz_type,json=bizType,proto3" json:"biz_type,omitempty"`
-	FlowType      int32                  `protobuf:"varint,5,opt,name=flow_type,json=flowType,proto3" json:"flow_type,omitempty"`
-	CreateTime    string                 `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	FlowId         string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
+	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Amount         int64                  `protobuf:"varint,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	BizType        int32                  `protobuf:"varint,4,opt,name=biz_type,json=bizType,proto3" json:"biz_type,omitempty"`
+	FlowType       int32                  `protobuf:"varint,5,opt,name=flow_type,json=flowType,proto3" json:"flow_type,omitempty"`
+	CreateTime     string                 `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	CounterpartyId int64                  `protobuf:"varint,7,opt,name=counterparty_id,json=counterpartyId,proto3" json:"counterparty_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetUserFlowItemRsp) Reset() {
@@ -863,46 +1064,83 @@ func (x *GetUserFlowItemRsp) GetCreateTime() string {
 	return ""
 }
 
+func (x *GetUserFlowItemRsp) GetCounterpartyId() int64 {
+	if x != nil {
+		return x.CounterpartyId
+	}
+	return 0
+}
+
 var File_user_mgr_proto protoreflect.FileDescriptor
 
 const file_user_mgr_proto_rawDesc = "" +
 	"\n" +
-	"\x0euser_mgr.proto\x12\buser_mgr\"N\n" +
-	"\rCreateUserReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
-	"\x03age\x18\x03 \x01(\x05R\x03age\"E\n" +
-	"\rCreateUserRsp\x12\x17\n" +
+	"\x0euser_mgr.proto\x12\buser_mgr\"\xf7\x01\n" +
+	"\n" +
+	"RegUserReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
+	"\x06gender\x18\x05 \x01(\x05R\x06gender\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x18\n" +
+	"\aaddress\x18\x06 \x01(\tR\aaddress\x12\x14\n" +
+	"\x05phone\x18\a \x01(\tR\x05phone\x12\x14\n" +
+	"\x05email\x18\b \x01(\tR\x05email\x12\x17\n" +
+	"\aid_type\x18\t \x01(\x05R\x06idType\x12\x17\n" +
+	"\aid_card\x18\n" +
+	" \x01(\tR\x06idCard\"B\n" +
+	"\n" +
+	"RegUserRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tis_repeat\x18\x02 \x01(\x05R\bisRepeat\")\n" +
 	"\x0eGetUserInfoReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"O\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xdf\x01\n" +
 	"\x0eGetUserInfoRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
-	"\x03age\x18\x03 \x01(\x05R\x03age\",\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
+	"\x06gender\x18\x03 \x01(\x05R\x06gender\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x18\n" +
+	"\aaddress\x18\x05 \x01(\tR\aaddress\x12\x14\n" +
+	"\x05phone\x18\x06 \x01(\tR\x05phone\x12\x14\n" +
+	"\x05email\x18\a \x01(\tR\x05email\x12\x17\n" +
+	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
+	"\aid_card\x18\t \x01(\tR\x06idCard\",\n" +
 	"\x11GetUserBalanceReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"F\n" +
 	"\x11GetUserBalanceRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
-	"\abalance\x18\x02 \x01(\x03R\abalance\"R\n" +
+	"\abalance\x18\x02 \x01(\x03R\abalance\"\xe2\x01\n" +
 	"\x11UpdateUserInfoReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
-	"\x03age\x18\x03 \x01(\x05R\x03age\",\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
+	"\x06gender\x18\x03 \x01(\x05R\x06gender\x12\x10\n" +
+	"\x03age\x18\x04 \x01(\x05R\x03age\x12\x18\n" +
+	"\aaddress\x18\x05 \x01(\tR\aaddress\x12\x14\n" +
+	"\x05phone\x18\x06 \x01(\tR\x05phone\x12\x14\n" +
+	"\x05email\x18\a \x01(\tR\x05email\x12\x17\n" +
+	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
+	"\aid_card\x18\t \x01(\tR\x06idCard\",\n" +
 	"\x11UpdateUserInfoRsp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"=\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x97\x01\n" +
 	"\n" +
 	"DepositReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x03R\x06amount\"?\n" +
+	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x1b\n" +
+	"\tbank_type\x18\x03 \x01(\x03R\bbankType\x12\x1f\n" +
+	"\vbind_serial\x18\x04 \x01(\tR\n" +
+	"bindSerial\x12\x1a\n" +
+	"\bpassword\x18\x05 \x01(\tR\bpassword\"?\n" +
 	"\n" +
 	"DepositRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
-	"\abalance\x18\x02 \x01(\x03R\abalance\">\n" +
+	"\abalance\x18\x02 \x01(\x03R\abalance\"\x98\x01\n" +
 	"\vWithdrawReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x03R\x06amount\"@\n" +
+	"\x06amount\x18\x02 \x01(\x03R\x06amount\x12\x1b\n" +
+	"\tbank_type\x18\x03 \x01(\x03R\bbankType\x12\x1f\n" +
+	"\vbind_serial\x18\x04 \x01(\tR\n" +
+	"bindSerial\x12\x1a\n" +
+	"\bpassword\x18\x05 \x01(\tR\bpassword\"@\n" +
 	"\vWithdrawRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x18\n" +
 	"\abalance\x18\x02 \x01(\x03R\abalance\"W\n" +
@@ -914,7 +1152,7 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x120\n" +
 	"\x04flow\x18\x02 \x03(\v2\x1c.user_mgr.GetUserFlowItemRspR\x04flow\x12\x12\n" +
 	"\x04flag\x18\x03 \x01(\x05R\x04flag\x12\x16\n" +
-	"\x06offset\x18\x04 \x01(\x05R\x06offset\"\xb7\x01\n" +
+	"\x06offset\x18\x04 \x01(\x05R\x06offset\"\xe0\x01\n" +
 	"\x12GetUserFlowItemRsp\x12\x17\n" +
 	"\aflow_id\x18\x01 \x01(\tR\x06flowId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x16\n" +
@@ -922,16 +1160,16 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\bbiz_type\x18\x04 \x01(\x05R\abizType\x12\x1b\n" +
 	"\tflow_type\x18\x05 \x01(\x05R\bflowType\x12\x1f\n" +
 	"\vcreate_time\x18\x06 \x01(\tR\n" +
-	"createTime2\xd8\x03\n" +
-	"\aUserMgr\x12>\n" +
-	"\n" +
-	"CreateUser\x12\x17.user_mgr.CreateUserReq\x1a\x17.user_mgr.CreateUserRsp\x12A\n" +
+	"createTime\x12'\n" +
+	"\x0fcounterparty_id\x18\a \x01(\x03R\x0ecounterpartyId2\xcf\x03\n" +
+	"\aUserMgr\x125\n" +
+	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12A\n" +
 	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12J\n" +
-	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12J\n" +
+	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
+	"\vGetUserFlow\x12\x18.user_mgr.GetUserFlowReq\x1a\x18.user_mgr.GetUserFlowRsp\x12J\n" +
 	"\x0eGetUserBalance\x12\x1b.user_mgr.GetUserBalanceReq\x1a\x1b.user_mgr.GetUserBalanceRsp\x125\n" +
 	"\aDeposit\x12\x14.user_mgr.DepositReq\x1a\x14.user_mgr.DepositRsp\x128\n" +
-	"\bWithdraw\x12\x15.user_mgr.WithdrawReq\x1a\x15.user_mgr.WithdrawRsp\x12A\n" +
-	"\vGetUserFlow\x12\x18.user_mgr.GetUserFlowReq\x1a\x18.user_mgr.GetUserFlowRspB\x0fZ\r./user_mgr_pbb\x06proto3"
+	"\bWithdraw\x12\x15.user_mgr.WithdrawReq\x1a\x15.user_mgr.WithdrawRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
 var (
 	file_user_mgr_proto_rawDescOnce sync.Once
@@ -947,8 +1185,8 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 
 var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_user_mgr_proto_goTypes = []any{
-	(*CreateUserReq)(nil),      // 0: user_mgr.CreateUserReq
-	(*CreateUserRsp)(nil),      // 1: user_mgr.CreateUserRsp
+	(*RegUserReq)(nil),         // 0: user_mgr.RegUserReq
+	(*RegUserRsp)(nil),         // 1: user_mgr.RegUserRsp
 	(*GetUserInfoReq)(nil),     // 2: user_mgr.GetUserInfoReq
 	(*GetUserInfoRsp)(nil),     // 3: user_mgr.GetUserInfoRsp
 	(*GetUserBalanceReq)(nil),  // 4: user_mgr.GetUserBalanceReq
@@ -965,20 +1203,20 @@ var file_user_mgr_proto_goTypes = []any{
 }
 var file_user_mgr_proto_depIdxs = []int32{
 	14, // 0: user_mgr.GetUserFlowRsp.flow:type_name -> user_mgr.GetUserFlowItemRsp
-	0,  // 1: user_mgr.UserMgr.CreateUser:input_type -> user_mgr.CreateUserReq
+	0,  // 1: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
 	2,  // 2: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
 	6,  // 3: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
-	4,  // 4: user_mgr.UserMgr.GetUserBalance:input_type -> user_mgr.GetUserBalanceReq
-	8,  // 5: user_mgr.UserMgr.Deposit:input_type -> user_mgr.DepositReq
-	10, // 6: user_mgr.UserMgr.Withdraw:input_type -> user_mgr.WithdrawReq
-	12, // 7: user_mgr.UserMgr.GetUserFlow:input_type -> user_mgr.GetUserFlowReq
-	1,  // 8: user_mgr.UserMgr.CreateUser:output_type -> user_mgr.CreateUserRsp
+	12, // 4: user_mgr.UserMgr.GetUserFlow:input_type -> user_mgr.GetUserFlowReq
+	4,  // 5: user_mgr.UserMgr.GetUserBalance:input_type -> user_mgr.GetUserBalanceReq
+	8,  // 6: user_mgr.UserMgr.Deposit:input_type -> user_mgr.DepositReq
+	10, // 7: user_mgr.UserMgr.Withdraw:input_type -> user_mgr.WithdrawReq
+	1,  // 8: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
 	3,  // 9: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
 	7,  // 10: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
-	5,  // 11: user_mgr.UserMgr.GetUserBalance:output_type -> user_mgr.GetUserBalanceRsp
-	9,  // 12: user_mgr.UserMgr.Deposit:output_type -> user_mgr.DepositRsp
-	11, // 13: user_mgr.UserMgr.Withdraw:output_type -> user_mgr.WithdrawRsp
-	13, // 14: user_mgr.UserMgr.GetUserFlow:output_type -> user_mgr.GetUserFlowRsp
+	13, // 11: user_mgr.UserMgr.GetUserFlow:output_type -> user_mgr.GetUserFlowRsp
+	5,  // 12: user_mgr.UserMgr.GetUserBalance:output_type -> user_mgr.GetUserBalanceRsp
+	9,  // 13: user_mgr.UserMgr.Deposit:output_type -> user_mgr.DepositRsp
+	11, // 14: user_mgr.UserMgr.Withdraw:output_type -> user_mgr.WithdrawRsp
 	8,  // [8:15] is the sub-list for method output_type
 	1,  // [1:8] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name

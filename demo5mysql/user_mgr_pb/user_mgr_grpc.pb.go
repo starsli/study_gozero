@@ -19,26 +19,28 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserMgr_CreateUser_FullMethodName     = "/user_mgr.UserMgr/CreateUser"
+	UserMgr_RegUser_FullMethodName        = "/user_mgr.UserMgr/RegUser"
 	UserMgr_GetUserInfo_FullMethodName    = "/user_mgr.UserMgr/GetUserInfo"
 	UserMgr_UpdateUserInfo_FullMethodName = "/user_mgr.UserMgr/UpdateUserInfo"
+	UserMgr_GetUserFlow_FullMethodName    = "/user_mgr.UserMgr/GetUserFlow"
 	UserMgr_GetUserBalance_FullMethodName = "/user_mgr.UserMgr/GetUserBalance"
 	UserMgr_Deposit_FullMethodName        = "/user_mgr.UserMgr/Deposit"
 	UserMgr_Withdraw_FullMethodName       = "/user_mgr.UserMgr/Withdraw"
-	UserMgr_GetUserFlow_FullMethodName    = "/user_mgr.UserMgr/GetUserFlow"
 )
 
 // UserMgrClient is the client API for UserMgr service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserMgrClient interface {
-	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRsp, error)
+	// 用户相关
+	RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
+	GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceRsp, error)
+	// 交易相关
 	Deposit(ctx context.Context, in *DepositReq, opts ...grpc.CallOption) (*DepositRsp, error)
 	Withdraw(ctx context.Context, in *WithdrawReq, opts ...grpc.CallOption) (*WithdrawRsp, error)
-	GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error)
 }
 
 type userMgrClient struct {
@@ -49,10 +51,10 @@ func NewUserMgrClient(cc grpc.ClientConnInterface) UserMgrClient {
 	return &userMgrClient{cc}
 }
 
-func (c *userMgrClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRsp, error) {
+func (c *userMgrClient) RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserRsp)
-	err := c.cc.Invoke(ctx, UserMgr_CreateUser_FullMethodName, in, out, cOpts...)
+	out := new(RegUserRsp)
+	err := c.cc.Invoke(ctx, UserMgr_RegUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +75,16 @@ func (c *userMgrClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRe
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserInfoRsp)
 	err := c.cc.Invoke(ctx, UserMgr_UpdateUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserFlowRsp)
+	err := c.cc.Invoke(ctx, UserMgr_GetUserFlow_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,27 +121,19 @@ func (c *userMgrClient) Withdraw(ctx context.Context, in *WithdrawReq, opts ...g
 	return out, nil
 }
 
-func (c *userMgrClient) GetUserFlow(ctx context.Context, in *GetUserFlowReq, opts ...grpc.CallOption) (*GetUserFlowRsp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserFlowRsp)
-	err := c.cc.Invoke(ctx, UserMgr_GetUserFlow_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserMgrServer is the server API for UserMgr service.
 // All implementations must embed UnimplementedUserMgrServer
 // for forward compatibility.
 type UserMgrServer interface {
-	CreateUser(context.Context, *CreateUserReq) (*CreateUserRsp, error)
+	// 用户相关
+	RegUser(context.Context, *RegUserReq) (*RegUserRsp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
+	GetUserFlow(context.Context, *GetUserFlowReq) (*GetUserFlowRsp, error)
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceRsp, error)
+	// 交易相关
 	Deposit(context.Context, *DepositReq) (*DepositRsp, error)
 	Withdraw(context.Context, *WithdrawReq) (*WithdrawRsp, error)
-	GetUserFlow(context.Context, *GetUserFlowReq) (*GetUserFlowRsp, error)
 	mustEmbedUnimplementedUserMgrServer()
 }
 
@@ -140,14 +144,17 @@ type UserMgrServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserMgrServer struct{}
 
-func (UnimplementedUserMgrServer) CreateUser(context.Context, *CreateUserReq) (*CreateUserRsp, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
+func (UnimplementedUserMgrServer) RegUser(context.Context, *RegUserReq) (*RegUserRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method RegUser not implemented")
 }
 func (UnimplementedUserMgrServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserInfo not implemented")
 }
 func (UnimplementedUserMgrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserMgrServer) GetUserFlow(context.Context, *GetUserFlowReq) (*GetUserFlowRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserFlow not implemented")
 }
 func (UnimplementedUserMgrServer) GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserBalance not implemented")
@@ -157,9 +164,6 @@ func (UnimplementedUserMgrServer) Deposit(context.Context, *DepositReq) (*Deposi
 }
 func (UnimplementedUserMgrServer) Withdraw(context.Context, *WithdrawReq) (*WithdrawRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method Withdraw not implemented")
-}
-func (UnimplementedUserMgrServer) GetUserFlow(context.Context, *GetUserFlowReq) (*GetUserFlowRsp, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetUserFlow not implemented")
 }
 func (UnimplementedUserMgrServer) mustEmbedUnimplementedUserMgrServer() {}
 func (UnimplementedUserMgrServer) testEmbeddedByValue()                 {}
@@ -182,20 +186,20 @@ func RegisterUserMgrServer(s grpc.ServiceRegistrar, srv UserMgrServer) {
 	s.RegisterService(&UserMgr_ServiceDesc, srv)
 }
 
-func _UserMgr_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserReq)
+func _UserMgr_RegUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserMgrServer).CreateUser(ctx, in)
+		return srv.(UserMgrServer).RegUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserMgr_CreateUser_FullMethodName,
+		FullMethod: UserMgr_RegUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).CreateUser(ctx, req.(*CreateUserReq))
+		return srv.(UserMgrServer).RegUser(ctx, req.(*RegUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -232,6 +236,24 @@ func _UserMgr_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserMgrServer).UpdateUserInfo(ctx, req.(*UpdateUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_GetUserFlow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserFlowReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).GetUserFlow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserMgr_GetUserFlow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).GetUserFlow(ctx, req.(*GetUserFlowReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -290,24 +312,6 @@ func _UserMgr_Withdraw_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserMgr_GetUserFlow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserFlowReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserMgrServer).GetUserFlow(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserMgr_GetUserFlow_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserMgrServer).GetUserFlow(ctx, req.(*GetUserFlowReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // UserMgr_ServiceDesc is the grpc.ServiceDesc for UserMgr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -316,8 +320,8 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserMgrServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateUser",
-			Handler:    _UserMgr_CreateUser_Handler,
+			MethodName: "RegUser",
+			Handler:    _UserMgr_RegUser_Handler,
 		},
 		{
 			MethodName: "GetUserInfo",
@@ -326,6 +330,10 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserInfo",
 			Handler:    _UserMgr_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "GetUserFlow",
+			Handler:    _UserMgr_GetUserFlow_Handler,
 		},
 		{
 			MethodName: "GetUserBalance",
@@ -338,10 +346,6 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Withdraw",
 			Handler:    _UserMgr_Withdraw_Handler,
-		},
-		{
-			MethodName: "GetUserFlow",
-			Handler:    _UserMgr_GetUserFlow_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

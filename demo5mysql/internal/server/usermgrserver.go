@@ -23,9 +23,10 @@ func NewUserMgrServer(svcCtx *svc.ServiceContext) *UserMgrServer {
 	}
 }
 
-func (s *UserMgrServer) CreateUser(ctx context.Context, in *user_mgr_pb.CreateUserReq) (*user_mgr_pb.CreateUserRsp, error) {
-	l := logic.NewCreateUserLogic(ctx, s.svcCtx)
-	return l.CreateUser(in)
+// 用户相关
+func (s *UserMgrServer) RegUser(ctx context.Context, in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUserRsp, error) {
+	l := logic.NewRegUserLogic(ctx, s.svcCtx)
+	return l.RegUser(in)
 }
 
 func (s *UserMgrServer) GetUserInfo(ctx context.Context, in *user_mgr_pb.GetUserInfoReq) (*user_mgr_pb.GetUserInfoRsp, error) {
@@ -38,11 +39,17 @@ func (s *UserMgrServer) UpdateUserInfo(ctx context.Context, in *user_mgr_pb.Upda
 	return l.UpdateUserInfo(in)
 }
 
+func (s *UserMgrServer) GetUserFlow(ctx context.Context, in *user_mgr_pb.GetUserFlowReq) (*user_mgr_pb.GetUserFlowRsp, error) {
+	l := logic.NewGetUserFlowLogic(ctx, s.svcCtx)
+	return l.GetUserFlow(in)
+}
+
 func (s *UserMgrServer) GetUserBalance(ctx context.Context, in *user_mgr_pb.GetUserBalanceReq) (*user_mgr_pb.GetUserBalanceRsp, error) {
 	l := logic.NewGetUserBalanceLogic(ctx, s.svcCtx)
 	return l.GetUserBalance(in)
 }
 
+// 交易相关
 func (s *UserMgrServer) Deposit(ctx context.Context, in *user_mgr_pb.DepositReq) (*user_mgr_pb.DepositRsp, error) {
 	l := logic.NewDepositLogic(ctx, s.svcCtx)
 	return l.Deposit(in)
@@ -51,9 +58,4 @@ func (s *UserMgrServer) Deposit(ctx context.Context, in *user_mgr_pb.DepositReq)
 func (s *UserMgrServer) Withdraw(ctx context.Context, in *user_mgr_pb.WithdrawReq) (*user_mgr_pb.WithdrawRsp, error) {
 	l := logic.NewWithdrawLogic(ctx, s.svcCtx)
 	return l.Withdraw(in)
-}
-
-func (s *UserMgrServer) GetUserFlow(ctx context.Context, in *user_mgr_pb.GetUserFlowReq) (*user_mgr_pb.GetUserFlowRsp, error) {
-	l := logic.NewGetUserFlowLogic(ctx, s.svcCtx)
-	return l.GetUserFlow(in)
 }

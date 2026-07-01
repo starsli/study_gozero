@@ -37,10 +37,17 @@ type (
 	}
 
 	TUserInfo struct {
-		Uid        int64     `db:"uid"`     // 主键
-		UserId     string    `db:"user_id"` // 用户ID
-		Name       string    `db:"name"`    // 用户名
-		Age        int64     `db:"age"`     // 年龄
+		Uid        int64     `db:"uid"`      // 主键
+		UserId     string    `db:"user_id"`  // 用户ID
+		Password   string    `db:"password"` // 支付密码
+		Name       string    `db:"name"`     // 姓名
+		Gender     int64     `db:"gender"`   // 性别
+		Age        int64     `db:"age"`      // 年龄
+		Address    string    `db:"address"`  // 地址
+		Phone      string    `db:"phone"`    // 手机号
+		Email      string    `db:"email"`    // 邮箱
+		IdType     int64     `db:"id_type"`  // 身份证类型
+		IdCard     string    `db:"id_card"`  // 身份证号
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
 	}
@@ -74,14 +81,14 @@ func (m *defaultTUserInfoModel) FindOne(ctx context.Context, uid int64) (*TUserI
 }
 
 func (m *defaultTUserInfoModel) Insert(ctx context.Context, data *TUserInfo) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?)", m.table, tUserInfoRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.UserId, data.Name, data.Age)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tUserInfoRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.UserId, data.Password, data.Name, data.Gender, data.Age, data.Address, data.Phone, data.Email, data.IdType, data.IdCard)
 	return ret, err
 }
 
 func (m *defaultTUserInfoModel) Update(ctx context.Context, data *TUserInfo) error {
 	query := fmt.Sprintf("update %s set %s where `uid` = ?", m.table, tUserInfoRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.Name, data.Age, data.Uid)
+	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.Password, data.Name, data.Gender, data.Age, data.Address, data.Phone, data.Email, data.IdType, data.IdCard, data.Uid)
 	return err
 }
 
