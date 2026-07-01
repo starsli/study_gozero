@@ -1,0 +1,33 @@
+Name: usermgr.rpc
+ListenOn: 0.0.0.0:8086
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: usermgr.rpc
+
+Log:
+  ServiceName: demo1.rpc
+  Mode: console    # console控制台 / file文件 / volume(k8s)
+  Encoding: plain  # plain开发看日志，json生产
+  Level: debug     # debug/info/error/severe，debug打印最详细
+  Path: ./logs     # 文件日志存放目录
+  MaxSize: 100     # 单文件最大MB
+  MaxBackups: 10   # 保留备份文件数
+  MaxAge: 7        # 日志保留天数
+  Compress: true   # 过期日志gzip压缩
+
+DB:
+  DataSource: root:123456@tcp(127.0.0.1:3307)/user_db?charset=utf8mb4&parseTime=True&loc=Local
+  MaxOpenConns: 20   # 最大连接数
+  MaxIdleConns: 5    # 空闲连接
+  SlowThreshold: 1s  # 慢SQL打印阈值
+
+CacheConf:
+  # 节点1
+  - Host: 127.0.0.1:6379
+    Timeout: 1s
+    Weight: 100
+  # 节点2
+  # - Host: 127.0.0.1:6380
+  #   Timeout: 1s
+  #   Weight: 80
