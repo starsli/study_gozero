@@ -1,0 +1,65 @@
+// 生成代码
+// goctl api go -api demo6.api -dir ./demo6
+// 导出OpenAPI文档
+// goctl api doc -api user.api -out swagger.json
+syntax = "v1"
+
+info (
+	title:   "demo6网关"
+	desc:    "demo6网关描述"
+	version: "v1"
+	author:  "starsli"
+)
+
+import "demo6_req_rsp.api"
+
+/*
+// 1. jwt鉴权：当前service所有接口开启登录校验，值为yaml中Jwt配置名
+jwt: Auth,
+// 2. 全局路由前缀，自动拼接在所有接口路径前
+prefix: /api/v1,
+// 3. 代码分组：生成handler/logic时放入对应文件夹
+group: user,
+// 4. 全局超时，支持s/ms
+timeout: 5s,
+// 5. 多中间件，逗号分隔，顺序执行
+middleware: AuthInterceptor,LogInterceptor,
+// 6. 最大请求体字节，防超大body攻击
+maxBytes: 1048576,
+// 7. 关闭swagger文档生成
+hideDoc: true
+*/
+@server (
+	group:  demo6
+	prefix: /api/demo6
+)
+service demo6 {
+	@doc (
+		summary: "测试api"
+		desc:    "测试api描述"
+		tags:    "测试api tag"
+	)
+	@handler testapi
+	post /testapi (TestApiReq) returns (TestApiRsp)
+}
+
+/*
+service 服务名-api {
+@doc("接口描述")
+@handler 处理器名
+@token       // 接口单独鉴权（局部，覆盖@server jwt）
+@limit(rate=10,burst=20) // 限流
+@cache(key="userId",expire=3600) // 缓存
+HTTP方法 路由路径 (请求体Type) returns (响应体Type)    支持方法 get post put delete patch head options
+}
+
+路径必须以 / 开头，不能以 / 结尾；
+路径变量 :变量名 只能出现在节点开头 /user/:id/detail；
+路径变量名必须在请求结构体存在 path:"变量名" 标签；
+字符支持：字母、数字、下划线、中划线 -；
+路由匹配优先级：精确路径 > 带变量路径。
+比如：
+/get/user/:id
+/api/v1/order/list
+
+*/

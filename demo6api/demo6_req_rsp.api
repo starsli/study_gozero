@@ -1,0 +1,36 @@
+type (
+	TestApiReq {
+		InputParams string `json:"input_params,optional"`
+    }
+	TestApiRsp {
+		OutputParams string `json:"output_params"`
+	}
+)
+
+// 基础：int、int64、string、bool、byte、float32、float64
+// 切片：[]string、[]int64、[]*User
+// Map：map[string]int、map[int]*User
+// 指针结构体：*User（用于嵌入复用）
+
+// json:"xxx"	HTTP Body JSON	POST/PUT 请求体
+// form:"xxx"	URL Query / Form 表单	GET、表单提交
+// path:"xxx"	路由路径变量	/user/:id 路径参数
+// header:"xxx"	HTTP 请求头	token、设备标识
+
+// 1. optional 可选参数，不传不报错
+// Age int `form:"age,optional"`
+// 2. default 默认值，不传自动填充
+// Status int `json:"status,default=1"`
+// 3. range 数值范围，仅int/int64/float
+// Age int `json:"age,range=[0:120]"`
+// 4. options 枚举校验，多值用 | 分割
+// Gender string `json:"gender,options=male|female"`
+
+// type BaseResp {
+//  Code int `json:"code"`
+//   Msg string `json:"msg"`
+//}
+//type LoginResp {
+//   *BaseResp  // 嵌入，自动继承Code、Msg
+//    Data TokenData `json:"data"`
+//}
